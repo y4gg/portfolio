@@ -92,7 +92,7 @@ export function GitHubRepos() {
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-4">
         {currentRepos.map((repo) => (
-          <div key={repo.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+          <div key={repo.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow pb-1.5">
             {repo.homepage ? (
               <div className="flex items-start justify-between mb-2">
                 <Link href={repo.html_url} target="_blank" rel="noopener noreferrer" className="flex-1">
