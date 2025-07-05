@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Star, GitFork } from 'lucide-react';
+import { LinkIcon, Star, GitFork } from 'lucide-react';
 import Link from 'next/link';
 
 interface Repository {
@@ -75,7 +75,7 @@ export function GitHubRepos() {
                 </Link>
                 <Button asChild variant="ghost" size="sm">
                   <Link href={repo.homepage} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4" />
+                    <LinkIcon className="w-4 h-4" />
                   </Link>
                 </Button>
               </div>

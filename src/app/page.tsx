@@ -23,7 +23,7 @@ export default function Page() {
               </Link>
             </Button>
             <Button asChild variant="secondary" className="w-full">
-              <Link href="emailto:contact@y4.gg">
+              <Link href="mailto:contact@y4.gg">
                 <Mail className="w-4 h-4 mr-2" />
                 Contact me
               </Link>
