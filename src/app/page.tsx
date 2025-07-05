@@ -16,16 +16,16 @@ export default function Page() {
           </p>
 
           <div className="space-y-4">
-            <Button asChild variant="outline" className="w-full">
-              <Link href="https://github.com/y4gg">
-                <Github className="w-4 h-4 mr-2" />
-                GitHub
+            <Button asChild variant="default" className="w-full">
+              <Link href="/blog">
+                <ScrollText className="w-4 h-4 mr-2" />
+                Blog
               </Link>
             </Button>
             <Button asChild variant="outline" className="w-full">
               <Link href="https://github.com/y4gg">
-                <ScrollText className="w-4 h-4 mr-2" />
-                Blog
+                <Github className="w-4 h-4 mr-2" />
+                GitHub
               </Link>
             </Button>
           </div>
@@ -33,7 +33,7 @@ export default function Page() {
       </div>
       {/* Right side - GitHub Repos */}
       <div className="flex-1 flex flex-col items-center justify-center px-4">
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">My Projects</h2>
           <GitHubRepos />
         </div>
