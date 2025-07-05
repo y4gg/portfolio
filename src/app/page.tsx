@@ -16,12 +16,12 @@ export default function Page() {
           </p>
 
           <div className="space-y-4">
-            <Button asChild variant="default" className="w-full">
+            {/* <Button asChild variant="default" className="w-full">
               <Link href="/blog">
                 <ScrollText className="w-4 h-4 mr-2" />
                 Blog
               </Link>
-            </Button>
+            </Button> */}
             <Button asChild variant="outline" className="w-full">
               <Link href="https://github.com/y4gg">
                 <Github className="w-4 h-4 mr-2" />

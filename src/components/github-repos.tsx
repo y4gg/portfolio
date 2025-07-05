@@ -25,7 +25,7 @@ export function GitHubRepos() {
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/y4gg/repos?sort=updated&per_page=3');
+        const response = await fetch('https://api.github.com/users/y4gg/repos?sort=recent_update&per_page=3');
         if (!response.ok) {
           throw new Error('Failed to fetch repositories');
         }
