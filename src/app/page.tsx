@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { GitHubRepos } from "@/components/github-repos";
-import { Github, ScrollText } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
@@ -16,16 +16,16 @@ export default function Page() {
           </p>
 
           <div className="space-y-4">
-            {/* <Button asChild variant="default" className="w-full">
-              <Link href="/blog">
-                <ScrollText className="w-4 h-4 mr-2" />
-                Blog
-              </Link>
-            </Button> */}
-            <Button asChild variant="outline" className="w-full">
+            <Button asChild variant="default" className="w-full">
               <Link href="https://github.com/y4gg">
                 <Github className="w-4 h-4 mr-2" />
                 GitHub
+              </Link>
+            </Button>
+            <Button asChild variant="secondary" className="w-full">
+              <Link href="emailto:contact@y4.gg">
+                <Mail className="w-4 h-4 mr-2" />
+                Contact me
               </Link>
             </Button>
           </div>
