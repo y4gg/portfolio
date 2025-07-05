@@ -70,9 +70,9 @@ export function GitHubRepos() {
         <div className="grid grid-cols-1 gap-4">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="border rounded-lg p-4 animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+              <div className="h-4 bg-gray-200 rounded w-2/5 mb-2"></div>
+              <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
+              <div className="h-3 bg-gray-200 rounded w-4/9"></div>
             </div>
           ))}
         </div>
