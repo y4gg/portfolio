@@ -9,7 +9,7 @@ export default function Page() {
       {/* Left side - Links */}
       <div className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="text-center max-w-md">
-          <h1 className="text-4xl font-bold my-1">Hello World, I'm y4.gg</h1>
+          <h1 className="text-4xl font-bold my-1">Hello World, I&apos;m y4.gg</h1>
           <p className="text-lg text-muted-foreground mb-8">
             I make stuff, mostly web apps with Next.js. <br /> Remind me to
             update the style of this page.

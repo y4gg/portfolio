@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Github, ExternalLink, Star, GitFork } from 'lucide-react';
+import { ExternalLink, Star, GitFork } from 'lucide-react';
 import Link from 'next/link';
 
 interface Repository {
