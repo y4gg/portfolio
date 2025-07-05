@@ -31,7 +31,7 @@ export function GitHubRepos() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const reposPerPage = 3;
+  const reposPerPage = 4;
 
   useEffect(() => {
     const fetchRepos = async () => {
