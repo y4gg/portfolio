@@ -2,7 +2,7 @@
   "name": "y4.gg's Blog",
   "short_name": "y4 Blog",
   "start_url": "/blog",
-  "display": "standalone",
-  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "background_color": "#020618",
   "theme_color": "#000000"
 }
