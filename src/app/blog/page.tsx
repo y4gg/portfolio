@@ -137,7 +137,7 @@ export default function BlogPage() {
 
   return (
     <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
-      <ResizablePanel defaultSize={40}>
+      <ResizablePanel defaultSize={40} minSize={25}>
         <div className="p-6 h-full overflow-y-auto">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
@@ -226,7 +226,7 @@ export default function BlogPage() {
         </div>
       </ResizablePanel>
       <ResizableHandle className="h-screen" />
-      <ResizablePanel defaultSize={60}>
+      <ResizablePanel defaultSize={60} minSize={60}>
         <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
       </ResizablePanel>
     </ResizablePanelGroup>
