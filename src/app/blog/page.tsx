@@ -125,7 +125,7 @@ export default function BlogPage() {
                 <article 
                   key={blog.id} 
                   className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
-                    selectedBlogSlug === blog.slug ? 'ring-2 ring-blue-500 bg-blue-50' : ''
+                    selectedBlogSlug === blog.slug ? 'ring-2 ring-blue-500' : ''
                   }`}
                   onClick={() => handleBlogSelect(blog.slug)}
                 >
@@ -136,13 +136,12 @@ export default function BlogPage() {
                   <p className="text-gray-700 line-clamp-3">
                     {blog.content.substring(0, 200)}...
                   </p>
-                  <a
-                    href={`/blog/${blog.slug}`}
+                  <p
                     className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={() => handleBlogSelect(blog.slug)}
                   >
                     Read more →
-                  </a>
+                  </p>
                 </article>
               ))}
             </div>
@@ -159,7 +158,7 @@ export default function BlogPage() {
                     />
                   </PaginationItem>
                   
-                  {getPageNumbers().map((page, index) => (
+                  {getPageNumbers().map((page) => (
                     <PaginationItem key={page}>
                       <PaginationLink
                         onClick={() => handlePageChange(page)}
@@ -185,7 +184,7 @@ export default function BlogPage() {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={60}>
-        <BlogViewer selectedBlogSlug={selectedBlogSlug} />
+        <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

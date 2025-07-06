@@ -44,7 +44,7 @@ export default function CreateBlogForm() {
         setMessage(`Error: ${data.error}`);
       }
     } catch (error) {
-      setMessage('Failed to create blog post');
+      setMessage('Failed to create blog post:' + error);
     } finally {
       setLoading(false);
     }

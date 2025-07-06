@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 interface Blog {
   id: string;
@@ -14,9 +15,13 @@ interface Blog {
 
 interface BlogViewerProps {
   selectedBlogSlug?: string;
+  fullScreen?: boolean;
 }
 
-export default function BlogViewer({ selectedBlogSlug }: BlogViewerProps) {
+export default function BlogViewer({
+  selectedBlogSlug,
+  fullScreen,
+}: BlogViewerProps) {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -50,7 +55,9 @@ export default function BlogViewer({ selectedBlogSlug }: BlogViewerProps) {
       <div className="flex items-center justify-center h-full">
         <div className="text-center text-muted-foreground">
           <h3 className="text-lg font-medium mb-2">No Blog Selected</h3>
-          <p className="text-sm">Select a blog post from the list to view it here</p>
+          <p className="text-sm">
+            Select a blog post from the list to view it here
+          </p>
         </div>
       </div>
     );
@@ -78,31 +85,42 @@ export default function BlogViewer({ selectedBlogSlug }: BlogViewerProps) {
   }
 
   return (
-    <div className="h-full overflow-y-auto p-6">
-      <Card className="h-full">
+    <div className="overflow-y-auto p-6">
+      <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">{blog.title}</CardTitle>
           <div className="flex items-center text-sm text-muted-foreground">
-            <span>Published on {new Date(blog.published).toLocaleDateString()}</span>
-            <Separator orientation="vertical" className="mx-2 h-4" />
-            <span>Slug: {blog.slug}</span>
+            <span>
+              Published on {new Date(blog.published).toLocaleDateString()}
+            </span>
           </div>
         </CardHeader>
         <CardContent>
           <div className="prose prose-sm max-w-none">
-            <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-              {blog.content}
+            <div className="whitespace-pre-wrap text-gray-300 leading-relaxed">
+              {fullScreen ? blog.content : blog.content.substring(0, 1000) + (blog.content.length > 1000 ? '...' : '')}
             </div>
           </div>
-          <div className="mt-6 pt-4 border-t">
+          <Separator orientation="horizontal" className="my-4" />
+          {!fullScreen ? (
             <Button variant="outline" asChild>
-              <a href={`/blog/${blog.slug}`} target="_blank" rel="noopener noreferrer">
+              <Link
+                href={`/blog/${blog.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 View Full Post
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="outline" asChild>
+              <a href={"/blog"} target="_blank" rel="noopener noreferrer">
+                Back
               </a>
             </Button>
-          </div>
+          )}
         </CardContent>
       </Card>
     </div>
   );
-} 
+}
