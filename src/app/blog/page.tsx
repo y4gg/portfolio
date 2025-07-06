@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/pagination";
 import BlogViewer from "@/components/blog-viewer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Blog {
   id: string;
@@ -28,7 +30,7 @@ export default function BlogPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [blogsPerPage] = useState(4);
+  const [blogsPerPage] = useState(3);
   const [selectedBlogSlug, setSelectedBlogSlug] = useState<
     string | undefined
   >();
@@ -108,19 +110,24 @@ export default function BlogPage() {
     return (
       <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
         <ResizablePanel defaultSize={40}>
-        <div className="p-6 h-full overflow-y-auto">
-          <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
-              {[...Array(blogsPerPage)].map((_, i) => (
-                <div key={i} className="border rounded-lg p-4 animate-pulse mb-4">
-                  <Skeleton className="h-8 rounded w-2/5 mb-2"></Skeleton>
-                  <Skeleton className="h-4 rounded w-2/5 mb-2"></Skeleton>
-                  <Skeleton className="h-18 rounded w-2/3 mb-2"></Skeleton>
-                  <Skeleton className="h-8 rounded w-4/9"></Skeleton>
-                </div>
-              ))}
+          <div className="p-6 h-full overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
+              <Button asChild>
+                <Link href="/">Back to home</Link>
+              </Button>
+            </div>
+            {[...Array(blogsPerPage)].map((_, i) => (
+              <div key={i} className="border rounded-lg p-4 animate-pulse mb-4">
+                <Skeleton className="h-8 rounded w-2/5 mb-2"></Skeleton>
+                <Skeleton className="h-4 rounded w-2/5 mb-2"></Skeleton>
+                <Skeleton className="h-18 rounded w-2/3 mb-2"></Skeleton>
+                <Skeleton className="h-8 rounded w-4/9"></Skeleton>
+              </div>
+            ))}
           </div>
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle className="h-screen" />
         <ResizablePanel defaultSize={60}>
           <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
         </ResizablePanel>
@@ -132,7 +139,12 @@ export default function BlogPage() {
     <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
       <ResizablePanel defaultSize={40}>
         <div className="p-6 h-full overflow-y-auto">
-          <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
+            <Button asChild>
+              <Link href="/">Back to home</Link>
+            </Button>
+          </div>
 
           {currentBlogs.length === 0 ? (
             <div className="text-center py-8">
@@ -213,7 +225,7 @@ export default function BlogPage() {
           )}
         </div>
       </ResizablePanel>
-      <ResizableHandle />
+      <ResizableHandle className="h-screen" />
       <ResizablePanel defaultSize={60}>
         <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
       </ResizablePanel>

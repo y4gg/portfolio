@@ -98,27 +98,23 @@ export default function BlogViewer({
         <CardContent>
           <div className="prose prose-sm max-w-none">
             <div className="whitespace-pre-wrap text-gray-300 leading-relaxed">
-              {fullScreen ? blog.content : blog.content.substring(0, 1000) + (blog.content.length > 1000 ? '...' : '')}
+              {fullScreen ? blog.content : blog.content.substring(0, 1500) + (blog.content.length > 1500 ? '...' : '')}
             </div>
           </div>
           <Separator orientation="horizontal" className="my-4" />
-          {!fullScreen ? (
-            <Button variant="outline" asChild>
-              <Link
-                href={`/blog/${blog.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View Full Post
-              </Link>
-            </Button>
-          ) : (
-            <Button variant="outline" asChild>
-              <a href={"/blog"} target="_blank" rel="noopener noreferrer">
-                Back
-              </a>
-            </Button>
-          )}
+                     {!fullScreen && blog.content.length > 1500 ? (
+              <Button variant="outline" asChild>
+               <Link href={`/blog/${blog.slug}`}>
+                  View Full Post
+               </Link>
+             </Button>
+           ) : (
+             <Button variant="outline" asChild>
+               <a href={"/blog"}>
+                 Back
+               </a>
+              </Button>
+           )}
         </CardContent>
       </Card>
     </div>
