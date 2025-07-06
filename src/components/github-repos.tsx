@@ -41,8 +41,8 @@ export function GitHubRepos() {
           throw new Error('Failed to fetch repositories');
         }
         const data = await response.json();
-        // Filter out the portfolio repository
-        const filteredRepos = data.filter((repo: Repository) => repo.name !== 'portfolio');
+        // Filter out the portfolio and y4gg repositories
+        const filteredRepos = data.filter((repo: Repository) => repo.name !== 'portfolio' && repo.name !== 'y4gg');
         setRepos(filteredRepos);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
