@@ -42,9 +42,13 @@ export function GitHubRepos() {
           throw new Error('Failed to fetch repositories');
         }
         const data = await response.json();
-        // Filter out the portfolio and y4gg repositories
-        const filteredRepos = data.filter((repo: Repository) => repo.name !== 'portfolio' && repo.name !== 'y4gg');
-        setRepos(filteredRepos);
+        // Move portfolio and y4gg repositories to the back
+        const sortedRepos = data.sort((a: Repository, b: Repository) => {
+          if (a.name === 'portfolio' || a.name === 'y4gg') return 1;
+          if (b.name === 'portfolio' || b.name === 'y4gg') return -1;
+          return 0;
+        });
+        setRepos(sortedRepos);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
