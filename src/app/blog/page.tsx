@@ -121,7 +121,7 @@ export default function BlogPage() {
               <div key={i} className="border rounded-lg p-4 animate-pulse mb-4">
                 <Skeleton className="h-8 rounded w-2/5 mb-2"></Skeleton>
                 <Skeleton className="h-4 rounded w-2/5 mb-2"></Skeleton>
-                <Skeleton className="h-18 rounded w-2/3 mb-2"></Skeleton>
+                <Skeleton className="h-18 rounded w-9/10 mb-2"></Skeleton>
                 <Skeleton className="h-8 rounded w-4/9"></Skeleton>
               </div>
             ))}

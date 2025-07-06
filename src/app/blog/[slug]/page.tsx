@@ -11,8 +11,8 @@ export default async function BlogPage({
   const { slug } = await params;
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-6 pt-6">
-        <h1 className="text-xl sm:text-3xl font-bold">y4.gg&apos;s Blog</h1>
+      <div className="flex items-center justify-between px-4 pt-4 md:px-6 md:pt-6">
+        <h1 className="text-xl md:text-3xl font-bold">y4.gg&apos;s Blog</h1>
         <Button asChild>
           <Link href="/">Back to home</Link>
         </Button>

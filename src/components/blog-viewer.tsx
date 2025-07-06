@@ -85,7 +85,7 @@ export default function BlogViewer({
   }
 
   return (
-    <div className="overflow-y-auto p-6">
+    <div className="overflow-y-auto p-4 md:p-6">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">{blog.title}</CardTitle>
@@ -104,10 +104,8 @@ export default function BlogViewer({
                   (blog.content.length > 1500 ? "..." : "")}
             </div>
           </div>
-          {blog.content.length > 1500 && (
-            <>
-              <Separator orientation="horizontal" className="my-4" />
-              {!fullScreen ? (
+          <Separator orientation="horizontal" className="my-4" />
+          {!fullScreen ? (
                 <Button variant="outline" asChild>
                   <Link href={`/blog/${blog.slug}`}>View Full Post</Link>
                 </Button>
@@ -116,8 +114,6 @@ export default function BlogViewer({
                   <a href={"/blog"}>Back</a>
                 </Button>
               )}
-            </>
-          )}
         </CardContent>
       </Card>
     </div>
