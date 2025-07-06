@@ -96,18 +96,18 @@ export function GitHubRepos() {
           <div key={repo.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow pb-1.5">
             {repo.homepage ? (
               <div className="flex items-start justify-between mb-2">
-                <Link href={repo.html_url} target="_blank" rel="noopener noreferrer" className="flex-1">
+                <Link href={repo.html_url} className="flex-1">
                   <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">{repo.name}</h3>
                 </Link>
                 <Button asChild variant="ghost" size="sm">
-                  <Link href={repo.homepage} target="_blank" rel="noopener noreferrer">
+                  <Link href={repo.homepage}>
                     <LinkIcon className="w-4 h-4" />
                   </Link>
                 </Button>
               </div>
             ) : (
               <div className="flex items-start justify-between mb-2">
-                <Link href={repo.html_url} target="_blank" rel="noopener noreferrer" className="flex-1">
+                <Link href={repo.html_url} className="flex-1">
                   <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">{repo.name}</h3>
                 </Link>
               </div>
