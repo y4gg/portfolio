@@ -1,0 +1,192 @@
+"use client";
+import { useEffect, useState } from "react";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import BlogViewer from "@/components/blog-viewer";
+
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  published: Date;
+  slug: string;
+}
+
+export default function BlogPage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [blogsPerPage] = useState(5);
+  const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | undefined>();
+
+  useEffect(() => {
+    // Fetch blogs from API route instead of using Prisma directly
+    fetch("/api/blogs")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        // Ensure we have an array of blogs
+        const blogsArray = Array.isArray(data) ? data : [];
+        setBlogs(blogsArray);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching blogs:", error);
+        setBlogs([]); // Set empty array on error
+        setLoading(false);
+      });
+  }, []);
+
+  // Calculate pagination
+  const blogsArray = Array.isArray(blogs) ? blogs : [];
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogsArray.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(blogsArray.length / blogsPerPage);
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Handle blog selection
+  const handleBlogSelect = (blogSlug: string) => {
+    setSelectedBlogSlug(blogSlug);
+  };
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading blogs...</div>
+      </div>
+    );
+  }
+
+  return (
+    <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
+      <ResizablePanel defaultSize={40}>
+        <div className="p-6 h-full overflow-y-auto">
+          <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
+          
+          {currentBlogs.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">No blog posts found.</p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {currentBlogs.map((blog) => (
+                <article 
+                  key={blog.id} 
+                  className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
+                    selectedBlogSlug === blog.slug ? 'ring-2 ring-blue-500 bg-blue-50' : ''
+                  }`}
+                  onClick={() => handleBlogSelect(blog.slug)}
+                >
+                  <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+                  <p className="text-gray-600 mb-3">
+                    {new Date(blog.published).toLocaleDateString()}
+                  </p>
+                  <p className="text-gray-700 line-clamp-3">
+                    {blog.content.substring(0, 200)}...
+                  </p>
+                  <a
+                    href={`/blog/${blog.slug}`}
+                    className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Read more →
+                  </a>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {totalPages > 1 && (
+            <div className="mt-8">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                  
+                  {getPageNumbers().map((page, index) => (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(page)}
+                        isActive={currentPage === page}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={60}>
+        <BlogViewer selectedBlogSlug={selectedBlogSlug} />
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  );
+}
