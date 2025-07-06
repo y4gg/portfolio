@@ -5,9 +5,9 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Left side - Links */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 lg:py-0">
         <div className="text-center max-w-md">
           <h1 className="text-4xl font-bold my-1">Hello World, I&apos;m y4.gg</h1>
           <p className="text-lg text-muted-foreground mb-8">
@@ -38,7 +38,7 @@ export default function Page() {
         </div>
       </div>
       {/* Right side - GitHub Repos */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4">
+      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 lg:py-0">
         <div className="w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">My Projects</h2>
           <GitHubRepos />

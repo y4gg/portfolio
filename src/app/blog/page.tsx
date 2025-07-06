@@ -110,9 +110,9 @@ export default function BlogPage() {
     return (
       <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
         <ResizablePanel defaultSize={40}>
-          <div className="p-6 h-full overflow-y-auto">
+          <div className="p-4 md:p-6 h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
+              <h1 className="text-xl md:text-3xl font-bold">y4.gg's Blog</h1>
               <Button asChild>
                 <Link href="/">Back to home</Link>
               </Button>
@@ -128,7 +128,7 @@ export default function BlogPage() {
           </div>
         </ResizablePanel>
         <ResizableHandle className="h-screen" />
-        <ResizablePanel defaultSize={60}>
+        <ResizablePanel defaultSize={60} className="hidden md:block">
           <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
         </ResizablePanel>
       </ResizablePanelGroup>
@@ -136,11 +136,12 @@ export default function BlogPage() {
   }
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
-      <ResizablePanel defaultSize={40} minSize={25}>
-        <div className="p-6 h-full overflow-y-auto">
+    <>
+      {/* Mobile Layout */}
+      <div className="md:hidden">
+        <div className="p-4">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
+            <h1 className="text-xl font-bold">y4.gg's Blog</h1>
             <Button asChild>
               <Link href="/">Back to home</Link>
             </Button>
@@ -151,35 +152,28 @@ export default function BlogPage() {
               <p className="text-gray-500">No blog posts found.</p>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4">
               {currentBlogs.map((blog) => (
-                <article
-                  key={blog.id}
-                  className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
-                    selectedBlogSlug === blog.slug ? "ring-2 ring-blue-500" : ""
-                  }`}
-                  onClick={() => handleBlogSelect(blog.slug)}
-                >
-                  <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
-                  <p className="text-gray-600 mb-3">
-                    {new Date(blog.published).toLocaleDateString()}
-                  </p>
-                  <p className="text-gray-700 line-clamp-3">
-                    {blog.content.substring(0, 200)}...
-                  </p>
-                  <p
-                    className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
-                    onClick={() => handleBlogSelect(blog.slug)}
-                  >
-                    Read more →
-                  </p>
-                </article>
+                <Link key={blog.id} href={`/blog/${blog.slug}`}>
+                  <article className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+                    <h2 className="text-lg font-semibold mb-2">{blog.title}</h2>
+                    <p className="text-gray-600 mb-3 text-sm">
+                      {new Date(blog.published).toLocaleDateString()}
+                    </p>
+                    <p className="text-gray-700 line-clamp-3 text-sm">
+                      {blog.content.substring(0, 150)}...
+                    </p>
+                    <p className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium text-sm">
+                      Read more →
+                    </p>
+                  </article>
+                </Link>
               ))}
             </div>
           )}
 
           {totalPages > 1 && (
-            <div className="mt-8">
+            <div className="mt-6">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
@@ -224,11 +218,105 @@ export default function BlogPage() {
             </div>
           )}
         </div>
-      </ResizablePanel>
-      <ResizableHandle className="h-screen" />
-      <ResizablePanel defaultSize={60} minSize={60}>
-        <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
-      </ResizablePanel>
-    </ResizablePanelGroup>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden md:block">
+        <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
+          <ResizablePanel defaultSize={40} minSize={25}>
+            <div className="p-6 h-full overflow-y-auto">
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
+                <Button asChild>
+                  <Link href="/">Back to home</Link>
+                </Button>
+              </div>
+
+              {currentBlogs.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No blog posts found.</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {currentBlogs.map((blog) => (
+                    <article
+                      key={blog.id}
+                      className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
+                        selectedBlogSlug === blog.slug ? "ring-2 ring-blue-500" : ""
+                      }`}
+                      onClick={() => handleBlogSelect(blog.slug)}
+                    >
+                      <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+                      <p className="text-gray-600 mb-3">
+                        {new Date(blog.published).toLocaleDateString()}
+                      </p>
+                      <p className="text-gray-700 line-clamp-3">
+                        {blog.content.substring(0, 200)}...
+                      </p>
+                      <p
+                        className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
+                        onClick={() => handleBlogSelect(blog.slug)}
+                      >
+                        Read more →
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              )}
+
+              {totalPages > 1 && (
+                <div className="mt-8">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() =>
+                            handlePageChange(Math.max(1, currentPage - 1))
+                          }
+                          className={
+                            currentPage === 1
+                              ? "pointer-events-none opacity-50"
+                              : "cursor-pointer"
+                          }
+                        />
+                      </PaginationItem>
+
+                      {getPageNumbers().map((page) => (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(page)}
+                            isActive={currentPage === page}
+                            className="cursor-pointer"
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() =>
+                            handlePageChange(Math.min(totalPages, currentPage + 1))
+                          }
+                          className={
+                            currentPage === totalPages
+                              ? "pointer-events-none opacity-50"
+                              : "cursor-pointer"
+                          }
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
+            </div>
+          </ResizablePanel>
+          <ResizableHandle className="h-screen" />
+          <ResizablePanel defaultSize={60} minSize={60}>
+            <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    </>
   );
 }
