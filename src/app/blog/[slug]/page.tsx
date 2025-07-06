@@ -12,7 +12,7 @@ export default async function BlogPage({
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-6 pt-6">
-        <h1 className="text-xl sm:text-3xl font-bold">y4.gg's Blog</h1>
+        <h1 className="text-xl sm:text-3xl font-bold">y4.gg&apos;s Blog</h1>
         <Button asChild>
           <Link href="/">Back to home</Link>
         </Button>

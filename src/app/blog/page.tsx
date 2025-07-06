@@ -112,7 +112,7 @@ export default function BlogPage() {
         <ResizablePanel defaultSize={40}>
           <div className="p-4 md:p-6 h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl md:text-3xl font-bold">y4.gg's Blog</h1>
+              <h1 className="text-xl md:text-3xl font-bold">y4.gg&apos;s Blog</h1>
               <Button asChild>
                 <Link href="/">Back to home</Link>
               </Button>
@@ -141,7 +141,7 @@ export default function BlogPage() {
       <div className="md:hidden">
         <div className="p-4">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-xl font-bold">y4.gg's Blog</h1>
+            <h1 className="text-xl font-bold">y4.gg&apos;s Blog</h1>
             <Button asChild>
               <Link href="/">Back to home</Link>
             </Button>
@@ -226,7 +226,7 @@ export default function BlogPage() {
           <ResizablePanel defaultSize={40} minSize={25}>
             <div className="p-6 h-full overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
-                <h1 className="text-3xl font-bold">y4.gg's Blog</h1>
+                <h1 className="text-3xl font-bold">y4.gg&apos;s Blog</h1>
                 <Button asChild>
                   <Link href="/">Back to home</Link>
                 </Button>
