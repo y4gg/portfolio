@@ -14,6 +14,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import BlogViewer from "@/components/blog-viewer";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Blog {
   id: string;
@@ -27,8 +28,10 @@ export default function BlogPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [blogsPerPage] = useState(5);
-  const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | undefined>();
+  const [blogsPerPage] = useState(4);
+  const [selectedBlogSlug, setSelectedBlogSlug] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
     // Fetch blogs from API route instead of using Prisma directly
@@ -73,7 +76,7 @@ export default function BlogPage() {
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -97,15 +100,31 @@ export default function BlogPage() {
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading blogs...</div>
-      </div>
+      <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
+        <ResizablePanel defaultSize={40}>
+        <div className="p-6 h-full overflow-y-auto">
+          <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
+              {[...Array(blogsPerPage)].map((_, i) => (
+                <div key={i} className="border rounded-lg p-4 animate-pulse mb-4">
+                  <Skeleton className="h-8 rounded w-2/5 mb-2"></Skeleton>
+                  <Skeleton className="h-4 rounded w-2/5 mb-2"></Skeleton>
+                  <Skeleton className="h-18 rounded w-2/3 mb-2"></Skeleton>
+                  <Skeleton className="h-8 rounded w-4/9"></Skeleton>
+                </div>
+              ))}
+          </div>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={60}>
+          <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     );
   }
 
@@ -114,7 +133,7 @@ export default function BlogPage() {
       <ResizablePanel defaultSize={40}>
         <div className="p-6 h-full overflow-y-auto">
           <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
-          
+
           {currentBlogs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500">No blog posts found.</p>
@@ -122,10 +141,10 @@ export default function BlogPage() {
           ) : (
             <div className="space-y-6">
               {currentBlogs.map((blog) => (
-                <article 
-                  key={blog.id} 
+                <article
+                  key={blog.id}
                   className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
-                    selectedBlogSlug === blog.slug ? 'ring-2 ring-blue-500' : ''
+                    selectedBlogSlug === blog.slug ? "ring-2 ring-blue-500" : ""
                   }`}
                   onClick={() => handleBlogSelect(blog.slug)}
                 >
@@ -153,11 +172,17 @@ export default function BlogPage() {
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
-                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      onClick={() =>
+                        handlePageChange(Math.max(1, currentPage - 1))
+                      }
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
                     />
                   </PaginationItem>
-                  
+
                   {getPageNumbers().map((page) => (
                     <PaginationItem key={page}>
                       <PaginationLink
@@ -169,11 +194,17 @@ export default function BlogPage() {
                       </PaginationLink>
                     </PaginationItem>
                   ))}
-                  
+
                   <PaginationItem>
                     <PaginationNext
-                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      onClick={() =>
+                        handlePageChange(Math.min(totalPages, currentPage + 1))
+                      }
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
                     />
                   </PaginationItem>
                 </PaginationContent>

@@ -12,6 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Repository {
   id: number;
@@ -68,11 +69,11 @@ export function GitHubRepos() {
     return (
       <div className="space-y-4">
         <div className="grid grid-cols-1 gap-4">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(reposPerPage)].map((_, i) => (
             <div key={i} className="border rounded-lg p-4 animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-2/5 mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-2/3 mb-2"></div>
-              <div className="h-3 bg-gray-200 rounded w-4/9"></div>
+              <Skeleton className="h-6 rounded w-2/5 mb-2"></Skeleton>
+              <Skeleton className="h-4 rounded w-2/3 mb-2"></Skeleton>
+              <Skeleton className="h-4 rounded w-4/9"></Skeleton>
             </div>
           ))}
         </div>
