@@ -85,7 +85,7 @@ export default function BlogViewer({
   }
 
   return (
-    <div className="overflow-y-auto p-4 md:p-6">
+    <div className="overflow-y-auto p-4 lg:p-6">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">{blog.title}</CardTitle>

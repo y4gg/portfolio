@@ -110,9 +110,9 @@ export default function BlogPage() {
     return (
       <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
         <ResizablePanel defaultSize={40}>
-          <div className="p-4 md:p-6 h-full overflow-y-auto">
+          <div className="p-4 lg:p-6 h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-xl md:text-3xl font-bold">y4.gg&apos;s Blog</h1>
+              <h1 className="text-xl lg:text-3xl font-bold">y4.gg&apos;s Blog</h1>
               <Button asChild>
                 <Link href="/">Back to home</Link>
               </Button>
@@ -128,7 +128,7 @@ export default function BlogPage() {
           </div>
         </ResizablePanel>
         <ResizableHandle className="h-screen" />
-        <ResizablePanel defaultSize={60} className="hidden md:block">
+        <ResizablePanel defaultSize={60} className="hidden lg:block">
           <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
         </ResizablePanel>
       </ResizablePanelGroup>
@@ -138,7 +138,7 @@ export default function BlogPage() {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <div className="p-4">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-xl font-bold">y4.gg&apos;s Blog</h1>
@@ -221,7 +221,7 @@ export default function BlogPage() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
           <ResizablePanel defaultSize={40} minSize={25}>
             <div className="p-6 h-full overflow-y-auto">
