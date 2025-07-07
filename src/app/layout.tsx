@@ -43,10 +43,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-        </ThemeProvider>
-        <div className="absolute bottom-4 right-4">
+        <div className="absolute hidden md:block bottom-4 right-4">
           <ModeToggle />
         </div>
+        </ThemeProvider>
       </body>
     </html>
   );

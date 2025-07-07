@@ -97,7 +97,7 @@ export default function BlogViewer({
         </CardHeader>
         <CardContent>
           <div className="prose prose-sm max-w-none">
-            <div className="whitespace-pre-wrap text-gray-300 leading-relaxed">
+            <div className="whitespace-pre-wrap leading-relaxed text-neutral-800 dark:text-gray-300">
               {fullScreen
                 ? blog.content
                 : blog.content.substring(0, 1500) +
