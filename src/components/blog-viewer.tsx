@@ -111,7 +111,7 @@ export default function BlogViewer({
                 </Button>
               ) : (
                 <Button variant="outline" asChild>
-                  <a href={"/blog"}>Back</a>
+                  <Link href={"/blog"}>Back</Link>
                 </Button>
               )}
         </CardContent>
