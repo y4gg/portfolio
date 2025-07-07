@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/theme-toggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "y4.gg's Portfolio",
-  description: "Oh no, not another portfolio website with a bareily any content.",
+  description: "Oh no, not another portfolio website with bareily any content.",
 };
 
 export default function RootLayout({
@@ -37,12 +38,15 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           {children}
         </ThemeProvider>
+        <div className="absolute bottom-4 right-4">
+          <ModeToggle />
+        </div>
       </body>
     </html>
   );
