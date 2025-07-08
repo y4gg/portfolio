@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from "next/link";
 
 export default function CreateBlogForm() {
   const [title, setTitle] = useState('');
@@ -20,7 +21,7 @@ export default function CreateBlogForm() {
     setMessage('');
 
     try {
-      const response = await fetch('/api/blogs', {
+      const response = await fetch('/api/blog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,8 +52,14 @@ export default function CreateBlogForm() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6">
-      <Card>
+    <div className="p-4 lg:p-6 h-full">
+    <div className="flex items-center justify-between mb-6">
+      <h1 className="text-xl lg:text-3xl font-bold">y4.gg&apos;s Blog</h1>
+      <Button asChild>
+        <Link href="/">Back to home</Link>
+      </Button>
+    </div>
+      <Card className='max-w-md mx-auto'>
         <CardHeader>
           <CardTitle>Create New Blog Post</CardTitle>
         </CardHeader>

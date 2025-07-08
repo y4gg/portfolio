@@ -32,7 +32,7 @@ export default function BlogViewer({
     }
 
     setLoading(true);
-    fetch(`/api/blogs/slug/${selectedBlogSlug}`)
+    fetch('/api/blog?slug=' + selectedBlogSlug)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
