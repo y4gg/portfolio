@@ -24,6 +24,7 @@ export default function AdminPage() {
   >();
   const [apiKey, setApiKey] = useState<string | undefined>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Remove blog from list
   const removeBlog = (slug: string) => {
@@ -32,8 +33,35 @@ export default function AdminPage() {
 
   useEffect(() => {
     const api_key = getCookie("api_key") as string;
-    setApiKey(api_key);
-  });
+    fetch("/api/auth?value=" + api_key).then((response) => {
+      if (response.ok) {
+        setApiKey(api_key as string);
+      }
+    }).catch((error) => {
+      console.error("Error validating API key:", error);
+    });
+    console.log("BlogList useEffect (fetch blogs)");
+    fetch("/api/blogs")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const blogsArray = Array.isArray(data) ? data : [];
+        setBlogs(blogsArray);
+        setLoading(false);
+        return;
+      })
+      .catch((error) => {
+        console.error("Error fetching blogs:", error);
+        setBlogs([]);
+        setLoading(false);
+        return;
+      });
+  }, []);
+
   if (!apiKey) {
     return (
       <div className="max-w-md mx-auto">
@@ -45,7 +73,13 @@ export default function AdminPage() {
       <>
         {/* Mobile Layout */}
         <div className="lg:hidden">
-          <BlogList onBlogSelect={setSelectedBlogSlug} isMobile={true} blogs={blogs} setBlogs={setBlogs} />
+          <BlogList
+            onBlogSelect={setSelectedBlogSlug}
+            isMobile={true}
+            blogs={blogs}
+            setBlogs={setBlogs}
+            loading={loading}
+          />
         </div>
 
         {/* Desktop Layout */}
@@ -55,7 +89,13 @@ export default function AdminPage() {
             className="w-screen h-screen"
           >
             <ResizablePanel defaultSize={40} minSize={25}>
-              <BlogList onBlogSelect={setSelectedBlogSlug} isMobile={false} blogs={blogs} setBlogs={setBlogs} />
+              <BlogList
+                onBlogSelect={setSelectedBlogSlug}
+                isMobile={false}
+                blogs={blogs}
+                setBlogs={setBlogs}
+                loading={loading}
+              />
             </ResizablePanel>
             <ResizableHandle className="h-screen" />
             <ResizablePanel
@@ -67,6 +107,7 @@ export default function AdminPage() {
                 apiKey={apiKey ?? ""}
                 selectedBlogSlug={selectedBlogSlug ?? ""}
                 setSelectedBlogSlug={setSelectedBlogSlug}
+                removeBlog={removeBlog}
               />
             </ResizablePanel>
           </ResizablePanelGroup>

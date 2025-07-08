@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/resizable";
 import BlogViewer from "@/components/blog-viewer";
 import { BlogList } from "@/components/blog-list";
+import { getCookie } from "cookies-next";
 
 interface Blog {
   id: string;
@@ -20,11 +21,39 @@ export default function BlogPage() {
   // BlogList will manage all blog state, pagination, and selection
   const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | undefined>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [apiKey, setApiKey] = useState<string | undefined>();
 
-  // Remove blog from list
-  const removeBlog = (slug: string) => {
-    setBlogs(blogs.filter((blog) => blog.slug !== slug));
-  };
+  useEffect(() => {
+    const api_key = getCookie("api_key") as string;
+    fetch("/api/auth?value=" + api_key).then((response) => {
+      if (response.ok) {
+        setApiKey(api_key as string);
+      }
+    }).catch((error) => {
+      console.error("Error validating API key:", error);
+    });
+    console.log("BlogList useEffect (fetch blogs)");
+    fetch("/api/blogs")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const blogsArray = Array.isArray(data) ? data : [];
+        setBlogs(blogsArray);
+        setLoading(false);
+        return;
+      })
+      .catch((error) => {
+        console.error("Error fetching blogs:", error);
+        setBlogs([]);
+        setLoading(false);
+        return;
+      });
+  }, []);
 
   return (
     <>
@@ -35,6 +64,7 @@ export default function BlogPage() {
           isMobile={true}
           blogs={blogs}
           setBlogs={setBlogs}
+          loading={loading}
         />
       </div>
 
@@ -47,6 +77,7 @@ export default function BlogPage() {
               isMobile={false}
               blogs={blogs}
               setBlogs={setBlogs}
+              loading={loading}
             />
           </ResizablePanel>
           <ResizableHandle className="h-screen" />

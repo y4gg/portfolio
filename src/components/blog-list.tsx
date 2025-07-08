@@ -24,6 +24,7 @@ interface BlogListProps {
   onBlogSelect?: (slug: string) => void;
   blogs: Blog[];
   setBlogs: (blogs: Blog[]) => void;
+  loading: boolean;
 }
 
 function getPageNumbers(currentPage: number, totalPages: number) {
@@ -55,34 +56,19 @@ function getPageNumbers(currentPage: number, totalPages: number) {
   return pages;
 }
 
-export function BlogList({ isMobile, onBlogSelect, blogs, setBlogs }: BlogListProps) {
-  const [loading, setLoading] = useState(true);
+export function BlogList({
+  isMobile,
+  onBlogSelect,
+  blogs,
+  setBlogs,
+  loading
+}: BlogListProps) {
+  console.log("BlogList render");
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(3);
   const [selectedBlogSlug, setSelectedBlogSlug] = useState<
     string | undefined
   >();
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("/api/blogs")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        const blogsArray = Array.isArray(data) ? data : [];
-        setBlogs(blogsArray);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching blogs:", error);
-        setBlogs([]);
-        setLoading(false);
-      });
-  }, []);
 
   // Calculate pagination
   const blogsArray = Array.isArray(blogs) ? blogs : [];

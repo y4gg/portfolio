@@ -20,9 +20,10 @@ interface BlogViewerProps {
   selectedBlogSlug?: string;
   apiKey: string;
   setSelectedBlogSlug: (slug: string | undefined) => void;
+  removeBlog: (slug: string) => void;
 }
 
-export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSlug }: BlogViewerProps) {
+export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSlug, removeBlog }: BlogViewerProps) {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
@@ -66,6 +67,7 @@ export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSl
       }
       toast.success("Blog deleted successfully");
       setSelectedBlogSlug(undefined);
+      removeBlog(selectedBlogSlug!);
     })
   };
 
