@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner"
 
 interface Blog {
   id: string;
@@ -17,15 +18,56 @@ interface Blog {
 
 interface BlogViewerProps {
   selectedBlogSlug?: string;
+  apiKey: string;
+  setSelectedBlogSlug: (slug: string | undefined) => void;
 }
 
-export default function BlogEditor({ selectedBlogSlug }: BlogViewerProps) {
+export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSlug }: BlogViewerProps) {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    fetch("/api/blogs/blog", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        content,
+        slug: selectedBlogSlug,
+        apiKey
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        toast.error("Error updating blog");
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      toast.success("Blog updated successfully");
+    })
+  };
+
+  const handleDelete = () => {
+    fetch("/api/blogs/blog", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        slug: selectedBlogSlug,
+        apiKey
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        toast.error("Error deleting blog");
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      toast.success("Blog deleted successfully");
+      setSelectedBlogSlug(undefined);
+    })
+  };
 
   useEffect(() => {
     if (!selectedBlogSlug) {
@@ -118,8 +160,8 @@ export default function BlogEditor({ selectedBlogSlug }: BlogViewerProps) {
           </div>
           <Separator orientation="horizontal" className="my-4" />
           <div className="flex flex-row justify-between">
-            <Button variant={"default"}>Save</Button>
-            <Button variant={"destructive"}>Delete</Button>
+            <Button variant={"default"} onClick={handleEdit}>Save</Button>
+            <Button variant={"destructive"} onClick={handleDelete}>Delete</Button>
           </div>
         </CardContent>
       </Card>

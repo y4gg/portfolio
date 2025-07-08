@@ -85,3 +85,95 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const { title, content, slug, apiKey } = await request.json();
+
+    // Check API key
+    if (apiKey !== API_KEY) {
+      return NextResponse.json(
+        { error: 'Invalid API key' },
+        { status: 401 }
+      );
+    }
+
+    // Validate required fields
+    if (!title || !content || !slug) {
+      return NextResponse.json(
+        { error: 'Title, content, and slug are required' },
+        { status: 400 }
+      );
+    }
+
+    // Check if slug already exists
+    const existingBlog = await prisma.blog.findUnique({
+      where: { slug }
+    });
+
+    if (!existingBlog) {
+      return NextResponse.json(
+        { error: 'You can&apos;t edit something that doesn&apo;t exist' },
+        { status: 404 }
+      );
+    }
+
+    // Update blog
+    const updatedBlog = await prisma.blog.update({
+      where: {
+        slug: slug
+      },
+      data: {
+        title,
+        content
+      }
+    });
+
+    return NextResponse.json(updatedBlog, { status: 200 });
+  } catch (error) {
+    console.error('Error updating blog:', error);
+    return NextResponse.json(
+      { error: 'Failed to update blog post' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { slug, apiKey } = await request.json();
+
+    // Check API key
+    if (apiKey !== API_KEY) {
+      return NextResponse.json(
+        { error: 'Invalid API key' },
+        { status: 401 }
+      );
+    }
+
+    // Check if slug exists
+    const existingBlog = await prisma.blog.findUnique({
+      where: { slug }
+    });
+
+    if (!existingBlog) {
+      return NextResponse.json(
+        { error: 'You can&apos;t delete something that doesn&apo;t exist' },
+        { status: 404 }
+      );
+    }
+  prisma.blog.delete({
+      where: {
+        slug: slug
+      }
+    });
+
+    return NextResponse.json({ message: 'Blog post deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting blog:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete blog post' },
+      { status: 500 }
+    );
+  }
+}

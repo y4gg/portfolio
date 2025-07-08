@@ -10,19 +10,31 @@ import {
 import { BlogList } from "@/components/blog-list";
 import BlogEditor from "@/components/blog-editor";
 
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  published: Date;
+  slug: string;
+}
+
 export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedBlogSlug, setSelectedBlogSlug] = useState<
     string | undefined
   >();
+  const [apiKey, setApiKey] = useState<string | undefined>();
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  // Remove blog from list
+  const removeBlog = (slug: string) => {
+    setBlogs(blogs.filter((blog) => blog.slug !== slug));
+  };
 
   useEffect(() => {
-    const api_key = getCookie("api_key");
-    if (api_key) {
-      setIsAuthenticated(true);
-    }
+    const api_key = getCookie("api_key") as string;
+    setApiKey(api_key);
   });
-  if (!isAuthenticated) {
+  if (!apiKey) {
     return (
       <div className="max-w-md mx-auto">
         <AdminAuth />
@@ -33,7 +45,7 @@ export default function AdminPage() {
       <>
         {/* Mobile Layout */}
         <div className="lg:hidden">
-          <BlogList onBlogSelect={setSelectedBlogSlug} isMobile={true} />
+          <BlogList onBlogSelect={setSelectedBlogSlug} isMobile={true} blogs={blogs} setBlogs={setBlogs} />
         </div>
 
         {/* Desktop Layout */}
@@ -43,7 +55,7 @@ export default function AdminPage() {
             className="w-screen h-screen"
           >
             <ResizablePanel defaultSize={40} minSize={25}>
-              <BlogList onBlogSelect={setSelectedBlogSlug} isMobile={false} />
+              <BlogList onBlogSelect={setSelectedBlogSlug} isMobile={false} blogs={blogs} setBlogs={setBlogs} />
             </ResizablePanel>
             <ResizableHandle className="h-screen" />
             <ResizablePanel
@@ -52,12 +64,14 @@ export default function AdminPage() {
               className="p-4 lg:p-6"
             >
               <BlogEditor
-                selectedBlogSlug={selectedBlogSlug}
+                apiKey={apiKey ?? ""}
+                selectedBlogSlug={selectedBlogSlug ?? ""}
+                setSelectedBlogSlug={setSelectedBlogSlug}
               />
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>
       </>
     );
-  } 
+  }
 }

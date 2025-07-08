@@ -22,6 +22,8 @@ interface Blog {
 interface BlogListProps {
   isMobile: boolean;
   onBlogSelect?: (slug: string) => void;
+  blogs: Blog[];
+  setBlogs: (blogs: Blog[]) => void;
 }
 
 function getPageNumbers(currentPage: number, totalPages: number) {
@@ -53,12 +55,13 @@ function getPageNumbers(currentPage: number, totalPages: number) {
   return pages;
 }
 
-export function BlogList({ isMobile, onBlogSelect }: BlogListProps) {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+export function BlogList({ isMobile, onBlogSelect, blogs, setBlogs }: BlogListProps) {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(3);
-  const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | undefined>();
+  const [selectedBlogSlug, setSelectedBlogSlug] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
     setLoading(true);
@@ -149,7 +152,9 @@ export function BlogList({ isMobile, onBlogSelect }: BlogListProps) {
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious
-                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                    onClick={() =>
+                      handlePageChange(Math.max(1, currentPage - 1))
+                    }
                     className={
                       currentPage === 1
                         ? "pointer-events-none opacity-50"
@@ -170,7 +175,9 @@ export function BlogList({ isMobile, onBlogSelect }: BlogListProps) {
                 ))}
                 <PaginationItem>
                   <PaginationNext
-                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                    onClick={() =>
+                      handlePageChange(Math.min(totalPages, currentPage + 1))
+                    }
                     className={
                       currentPage === totalPages
                         ? "pointer-events-none opacity-50"
@@ -247,7 +254,9 @@ export function BlogList({ isMobile, onBlogSelect }: BlogListProps) {
               ))}
               <PaginationItem>
                 <PaginationNext
-                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                  onClick={() =>
+                    handlePageChange(Math.min(totalPages, currentPage + 1))
+                  }
                   className={
                     currentPage === totalPages
                       ? "pointer-events-none opacity-50"
@@ -261,4 +270,4 @@ export function BlogList({ isMobile, onBlogSelect }: BlogListProps) {
       )}
     </div>
   );
-} 
+}
