@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -23,7 +23,6 @@ interface BlogListProps {
   isMobile: boolean;
   onBlogSelect?: (slug: string) => void;
   blogs: Blog[];
-  setBlogs: (blogs: Blog[]) => void;
   loading: boolean;
 }
 
@@ -60,7 +59,6 @@ export function BlogList({
   isMobile,
   onBlogSelect,
   blogs,
-  setBlogs,
   loading
 }: BlogListProps) {
   console.log("BlogList render");

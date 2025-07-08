@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/resizable";
 import BlogViewer from "@/components/blog-viewer";
 import { BlogList } from "@/components/blog-list";
-import { getCookie } from "cookies-next";
 
 interface Blog {
   id: string;
@@ -22,18 +21,8 @@ export default function BlogPage() {
   const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | undefined>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
-  const [apiKey, setApiKey] = useState<string | undefined>();
 
   useEffect(() => {
-    const api_key = getCookie("api_key") as string;
-    fetch("/api/auth?value=" + api_key).then((response) => {
-      if (response.ok) {
-        setApiKey(api_key as string);
-      }
-    }).catch((error) => {
-      console.error("Error validating API key:", error);
-    });
-    console.log("BlogList useEffect (fetch blogs)");
     fetch("/api/blogs")
       .then((res) => {
         if (!res.ok) {

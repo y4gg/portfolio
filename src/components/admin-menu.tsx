@@ -52,9 +52,9 @@ export function AdminMenu() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: "New Blog",
-        content: "This is a new blog post",
-        slug: "new-blog",
+        title: title,
+        content: content,
+        slug: slug,
         apiKey,
       }),
     }).then((res) => {
@@ -67,6 +67,7 @@ export function AdminMenu() {
       setContent("");
       setSlug("");
       setLoading(false);
+      window.location.reload();
     });
   };
 
