@@ -58,7 +58,7 @@ export default function RootLayout({
           <div className="absolute hidden md:block bottom-4 right-4">
             <ModeToggle />
           </div>
-          <div className="absolute hidden md:block bottom-4 right-16">
+          <div className="absolute md:block bottom-4 right-4 md:bottom-4 md:right-16">
             <AdminMenu />
           </div>
           <Toaster />

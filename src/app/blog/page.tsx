@@ -52,7 +52,6 @@ export default function BlogPage() {
           onBlogSelect={setSelectedBlogSlug}
           isMobile={true}
           blogs={blogs}
-          setBlogs={setBlogs}
           loading={loading}
         />
       </div>
@@ -65,7 +64,6 @@ export default function BlogPage() {
               onBlogSelect={setSelectedBlogSlug}
               isMobile={false}
               blogs={blogs}
-              setBlogs={setBlogs}
               loading={loading}
             />
           </ResizablePanel>
