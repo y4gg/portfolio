@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { GitHubRepos } from "@/components/github-repos";
-import { Github, Mail, AlignCenter  } from "lucide-react";
+import { Github, Mail, AlignCenter } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
@@ -9,7 +9,9 @@ export default function Page() {
       {/* Left side - Links */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 lg:py-0">
         <div className="text-center max-w-md">
-          <h1 className="text-4xl font-bold my-1">Hello World, I&apos;m y4.gg</h1>
+          <h1 className="text-4xl font-bold my-1">
+            Hello World, I&apos;m y4.gg
+          </h1>
           <p className="text-lg text-muted-foreground mb-8">
             I make stuff, mostly web apps with Next.js. <br /> Remind me to
             update the style of this page.
@@ -18,8 +20,8 @@ export default function Page() {
           <div className="space-y-4">
             <Button asChild variant="default" className="w-full">
               <Link href="/blog">
-              <AlignCenter />
-              Blog
+                <AlignCenter />
+                Blog
               </Link>
             </Button>
             <Button asChild variant="secondary" className="w-full">

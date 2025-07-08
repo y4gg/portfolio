@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { LinkIcon, Star, GitFork } from 'lucide-react';
-import Link from 'next/link';
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { LinkIcon, Star, GitFork } from "lucide-react";
+import Link from "next/link";
 import {
   Pagination,
   PaginationContent,
@@ -11,8 +11,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
-import { Skeleton } from "@/components/ui/skeleton"
+} from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Repository {
   id: number;
@@ -37,20 +37,22 @@ export function GitHubRepos() {
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/y4gg/repos?sort=recent_update&per_page=100');
+        const response = await fetch(
+          "https://api.github.com/users/y4gg/repos?sort=recent_update&per_page=100"
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch repositories');
+          throw new Error("Failed to fetch repositories");
         }
         const data = await response.json();
         // Move portfolio and y4gg repositories to the back
         const sortedRepos = data.sort((a: Repository, b: Repository) => {
-          if (a.name === 'portfolio' || a.name === 'y4gg') return 1;
-          if (b.name === 'portfolio' || b.name === 'y4gg') return -1;
+          if (a.name === "portfolio" || a.name === "y4gg") return 1;
+          if (b.name === "portfolio" || b.name === "y4gg") return -1;
           return 0;
         });
         setRepos(sortedRepos);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
         setLoading(false);
       }
@@ -97,11 +99,16 @@ export function GitHubRepos() {
     <div className="space-y-4">
       <div className="grid grid-cols-1 gap-4">
         {currentRepos.map((repo) => (
-          <div key={repo.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow pb-1.5">
+          <div
+            key={repo.id}
+            className="border rounded-lg p-4 hover:shadow-md transition-shadow pb-1.5"
+          >
             {repo.homepage ? (
               <div className="flex items-start justify-between mb-2">
                 <Link href={repo.html_url} className="flex-1">
-                  <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">{repo.name}</h3>
+                  <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">
+                    {repo.name}
+                  </h3>
                 </Link>
                 <Button asChild variant="ghost" size="sm">
                   <Link href={repo.homepage}>
@@ -112,7 +119,9 @@ export function GitHubRepos() {
             ) : (
               <div className="flex items-start justify-between mb-2">
                 <Link href={repo.html_url} className="flex-1">
-                  <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">{repo.name}</h3>
+                  <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">
+                    {repo.name}
+                  </h3>
                 </Link>
               </div>
             )}
@@ -121,7 +130,7 @@ export function GitHubRepos() {
                 {repo.description}
               </p>
             )}
-            
+
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
               {repo.language && (
                 <span className="flex items-center gap-1">
@@ -138,7 +147,7 @@ export function GitHubRepos() {
                 {repo.forks_count}
               </span>
             </div>
-            
+
             {repo.topics.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {repo.topics.slice(0, 3).map((topic) => (
@@ -164,16 +173,20 @@ export function GitHubRepos() {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious 
-                href="#" 
+              <PaginationPrevious
+                href="#"
                 onClick={(e) => {
                   e.preventDefault();
                   if (currentPage > 1) handlePageChange(currentPage - 1);
                 }}
-                className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                className={
+                  currentPage === 1
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
               />
             </PaginationItem>
-            
+
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <PaginationItem key={page}>
                 <PaginationLink
@@ -189,15 +202,20 @@ export function GitHubRepos() {
                 </PaginationLink>
               </PaginationItem>
             ))}
-            
+
             <PaginationItem>
-              <PaginationNext 
-                href="#" 
+              <PaginationNext
+                href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  if (currentPage < totalPages) handlePageChange(currentPage + 1);
+                  if (currentPage < totalPages)
+                    handlePageChange(currentPage + 1);
                 }}
-                className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                className={
+                  currentPage === totalPages
+                    ? "pointer-events-none opacity-50"
+                    : "cursor-pointer"
+                }
               />
             </PaginationItem>
           </PaginationContent>
@@ -205,4 +223,4 @@ export function GitHubRepos() {
       )}
     </div>
   );
-} 
+}

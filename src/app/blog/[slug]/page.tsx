@@ -1,23 +1,24 @@
 "use client";
 import BlogViewer from "@/components/blog-viewer";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Header } from "@/components/general";
+import { useEffect, useState } from "react";
 
-export default async function BlogPage({
+export default function BlogPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const [blockSlug, setBlockSlug] = useState<string | undefined>();
+  params.then(({ slug }) => {
+    setBlockSlug(slug);
+  });
+  useEffect(() => {
+    console.log(blockSlug);
+  }, [blockSlug]);
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-4 pt-4 lg:px-6 lg:pt-6">
-        <h1 className="text-xl lg:text-3xl font-bold">y4.gg&apos;s Blog</h1>
-        <Button asChild>
-          <Link href="/">Back to home</Link>
-        </Button>
-      </div>
-      <BlogViewer selectedBlogSlug={slug} fullScreen={true} />
+    <div className="pt-4 px-4 lg:pt-6 lg:px-6">
+      <Header />
+      <BlogViewer selectedBlogSlug={blockSlug} fullScreen={true} />
     </div>
   );
 }

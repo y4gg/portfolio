@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface Blog {
   id: string;
@@ -15,15 +17,15 @@ interface Blog {
 
 interface BlogViewerProps {
   selectedBlogSlug?: string;
-  fullScreen?: boolean;
 }
 
-export default function BlogViewer({
-  selectedBlogSlug,
-  fullScreen,
-}: BlogViewerProps) {
+export default function BlogEditor({ selectedBlogSlug }: BlogViewerProps) {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+
+  const handleEdit = () => {};
 
   useEffect(() => {
     if (!selectedBlogSlug) {
@@ -49,6 +51,13 @@ export default function BlogViewer({
         setLoading(false);
       });
   }, [selectedBlogSlug]);
+
+  useEffect(() => {
+    if (blog) {
+      setContent(blog.content);
+      setTitle(blog.title);
+    }
+  }, [blog]);
 
   if (!selectedBlogSlug) {
     return (
@@ -85,35 +94,33 @@ export default function BlogViewer({
   }
 
   return (
-    <div className="overflow-y-auto">
-      <Card>
+    <div className="h-full flex flex-col">
+      <Card className="h-full flex flex-col flex-1">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">{blog.title}</CardTitle>
+          <CardTitle className="space-y-2">
+            <Label className="text-md">Title</Label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+          </CardTitle>
           <div className="flex items-center text-sm text-muted-foreground">
             <span>
               Published on {new Date(blog.published).toLocaleDateString()}
             </span>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="prose prose-sm max-w-none">
-            <div className="whitespace-pre-wrap leading-relaxed text-neutral-800 dark:text-gray-300">
-              {fullScreen
-                ? blog.content
-                : blog.content.substring(0, 1500) +
-                  (blog.content.length > 1500 ? "..." : "")}
-            </div>
+        <CardContent className="flex-1 flex flex-col">
+          <div className="prose prose-sm max-w-none flex-1 flex flex-col space-y-2">
+            <Label className="text-md">Content</Label>
+            <Textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="flex-1 h-full resize-none text-neutral-800 dark:text-gray-300"
+            />
           </div>
           <Separator orientation="horizontal" className="my-4" />
-          {!fullScreen ? (
-            <Button variant="outline" asChild>
-              <Link href={`/blog/${blog.slug}`}>View Full Post</Link>
-            </Button>
-          ) : (
-            <Button variant="outline" asChild>
-              <Link href={"/blog"}>Back</Link>
-            </Button>
-          )}
+          <div className="flex flex-row justify-between">
+            <Button variant={"default"}>Save</Button>
+            <Button variant={"destructive"}>Delete</Button>
+          </div>
         </CardContent>
       </Card>
     </div>
