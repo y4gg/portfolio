@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 interface Blog {
   id: string;
@@ -23,7 +23,12 @@ interface BlogViewerProps {
   removeBlog: (slug: string) => void;
 }
 
-export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSlug, removeBlog }: BlogViewerProps) {
+export default function BlogEditor({
+  selectedBlogSlug,
+  apiKey,
+  setSelectedBlogSlug,
+  removeBlog,
+}: BlogViewerProps) {
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState("");
@@ -39,7 +44,7 @@ export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSl
         title,
         content,
         slug: selectedBlogSlug,
-        apiKey
+        apiKey,
       }),
     }).then((res) => {
       if (!res.ok) {
@@ -47,7 +52,7 @@ export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSl
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       toast.success("Blog updated successfully");
-    })
+    });
   };
 
   const handleDelete = () => {
@@ -58,17 +63,18 @@ export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSl
       },
       body: JSON.stringify({
         slug: selectedBlogSlug,
-        apiKey
+        apiKey,
       }),
     }).then((res) => {
       if (!res.ok) {
         toast.error("Error deleting blog");
         throw new Error(`HTTP error! status: ${res.status}`);
+      } else {
+        toast.success("Blog deleted successfully");
+        setSelectedBlogSlug(undefined);
+        removeBlog(selectedBlogSlug!);
       }
-      toast.success("Blog deleted successfully");
-      setSelectedBlogSlug(undefined);
-      removeBlog(selectedBlogSlug!);
-    })
+    });
   };
 
   useEffect(() => {
@@ -162,8 +168,12 @@ export default function BlogEditor({ selectedBlogSlug, apiKey, setSelectedBlogSl
           </div>
           <Separator orientation="horizontal" className="my-4" />
           <div className="flex flex-row justify-between">
-            <Button variant={"default"} onClick={handleEdit}>Save</Button>
-            <Button variant={"destructive"} onClick={handleDelete}>Delete</Button>
+            <Button variant={"default"} onClick={handleEdit}>
+              Save
+            </Button>
+            <Button variant={"destructive"} onClick={handleDelete}>
+              Delete
+            </Button>
           </div>
         </CardContent>
       </Card>

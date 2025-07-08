@@ -5,12 +5,9 @@ const API_KEY = process.env.API_KEY;
 
 export async function GET(request: Request) {
   try {
-    const slug = new URL(request.url).searchParams.get('slug');
+    const slug = new URL(request.url).searchParams.get("slug");
     if (!slug) {
-      return NextResponse.json(
-        { error: 'No slug provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "No slug provided" }, { status: 400 });
     }
     const blog = await prisma.blog.findUnique({
       where: {
@@ -41,28 +38,25 @@ export async function POST(request: Request) {
 
     // Check API key
     if (apiKey !== API_KEY) {
-      return NextResponse.json(
-        { error: 'Invalid API key' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Invalid API key" }, { status: 401 });
     }
 
     // Validate required fields
     if (!title || !content || !slug) {
       return NextResponse.json(
-        { error: 'Title, content, and slug are required' },
+        { error: "Title, content, and slug are required" },
         { status: 400 }
       );
     }
 
     // Check if slug already exists
     const existingBlog = await prisma.blog.findUnique({
-      where: { slug }
+      where: { slug },
     });
 
     if (existingBlog) {
       return NextResponse.json(
-        { error: 'Blog post with this slug already exists' },
+        { error: "Blog post with this slug already exists" },
         { status: 409 }
       );
     }
@@ -72,15 +66,15 @@ export async function POST(request: Request) {
       data: {
         title,
         content,
-        slug
-      }
+        slug,
+      },
     });
 
     return NextResponse.json(newBlog, { status: 201 });
   } catch (error) {
-    console.error('Error creating blog:', error);
+    console.error("Error creating blog:", error);
     return NextResponse.json(
-      { error: 'Failed to create blog post' },
+      { error: "Failed to create blog post" },
       { status: 500 }
     );
   }
@@ -92,28 +86,25 @@ export async function PUT(request: Request) {
 
     // Check API key
     if (apiKey !== API_KEY) {
-      return NextResponse.json(
-        { error: 'Invalid API key' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Invalid API key" }, { status: 401 });
     }
 
     // Validate required fields
     if (!title || !content || !slug) {
       return NextResponse.json(
-        { error: 'Title, content, and slug are required' },
+        { error: "Title, content, and slug are required" },
         { status: 400 }
       );
     }
 
     // Check if slug already exists
     const existingBlog = await prisma.blog.findUnique({
-      where: { slug }
+      where: { slug },
     });
 
     if (!existingBlog) {
       return NextResponse.json(
-        { error: 'You can&apos;t edit something that doesn&apo;t exist' },
+        { error: "You can&apos;t edit something that doesn&apo;t exist" },
         { status: 404 }
       );
     }
@@ -121,19 +112,19 @@ export async function PUT(request: Request) {
     // Update blog
     const updatedBlog = await prisma.blog.update({
       where: {
-        slug: slug
+        slug: slug,
       },
       data: {
         title,
-        content
-      }
+        content,
+      },
     });
 
     return NextResponse.json(updatedBlog, { status: 200 });
   } catch (error) {
-    console.error('Error updating blog:', error);
+    console.error("Error updating blog:", error);
     return NextResponse.json(
-      { error: 'Failed to update blog post' },
+      { error: "Failed to update blog post" },
       { status: 500 }
     );
   }
@@ -145,34 +136,35 @@ export async function DELETE(request: Request) {
 
     // Check API key
     if (apiKey !== API_KEY) {
-      return NextResponse.json(
-        { error: 'Invalid API key' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Invalid API key" }, { status: 401 });
     }
 
     // Check if slug exists
     const existingBlog = await prisma.blog.findUnique({
-      where: { slug }
+      where: { slug },
     });
 
     if (!existingBlog) {
       return NextResponse.json(
-        { error: 'You can&apos;t delete something that doesn&apo;t exist' },
+        { error: "You can&apos;t delete something that doesn&apo;t exist" },
         { status: 404 }
       );
     }
-  prisma.blog.delete({
+    
+    await prisma.blog.delete({
       where: {
-        slug: slug
-      }
+        slug: slug,
+      },
     });
 
-    return NextResponse.json({ message: 'Blog post deleted successfully' }, { status: 200 });
-  } catch (error) {
-    console.error('Error deleting blog:', error);
     return NextResponse.json(
-      { error: 'Failed to delete blog post' },
+      { message: "Blog post deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    return NextResponse.json(
+      { error: "Failed to delete blog post" },
       { status: 500 }
     );
   }
