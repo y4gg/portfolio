@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/resizable";
 import { BlogList } from "@/components/blog-list";
 import BlogEditor from "@/components/blog-editor";
+import { Header } from "@/components/general";
 
 interface Blog {
   id: string;
@@ -25,6 +26,7 @@ export default function AdminPage() {
   const [apiKey, setApiKey] = useState<string | undefined>();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
 
   // Remove blog from list
   const removeBlog = (slug: string) => {
@@ -33,14 +35,17 @@ export default function AdminPage() {
 
   useEffect(() => {
     const api_key = getCookie("api_key") as string;
-    fetch("/api/auth?value=" + api_key).then((response) => {
-      if (response.ok) {
-        setApiKey(api_key as string);
-      }
-    }).catch((error) => {
-      console.error("Error validating API key:", error);
-    });
-    console.log("BlogList useEffect (fetch blogs)");
+    fetch("/api/auth?value=" + api_key)
+      .then((response) => {
+        if (response.ok) {
+          setApiKey(api_key as string);
+          setPageLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error validating API key:", error);
+        setPageLoading(false);
+      });
     fetch("/api/blogs")
       .then((res) => {
         if (!res.ok) {
@@ -62,10 +67,24 @@ export default function AdminPage() {
       });
   }, []);
 
+  if (pageLoading) {
+    return (
+      <div className="p-4 lg:p-6">
+        <Header />
+        <div className="m-auto">
+          Loading...
+        </div>
+      </div>
+    );
+  }
+  
   if (!apiKey) {
     return (
-      <div className="max-w-md mx-auto">
-        <AdminAuth />
+      <div className="p-4 lg:p-6">
+        <Header />
+        <div className="max-w-md mx-auto">
+          <AdminAuth />
+        </div>
       </div>
     );
   } else {

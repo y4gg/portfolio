@@ -12,9 +12,6 @@ export default function BlogPage({
   params.then(({ slug }) => {
     setBlockSlug(slug);
   });
-  useEffect(() => {
-    console.log(blockSlug);
-  }, [blockSlug]);
   return (
     <div className="pt-4 px-4 lg:pt-6 lg:px-6">
       <Header />

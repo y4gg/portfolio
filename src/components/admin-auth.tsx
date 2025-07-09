@@ -21,6 +21,7 @@ export function AdminAuth() {
       if (response.ok) {
         setCookie("api_key", apiKey);
         toast("Logged in successfully!");
+        window.location.reload();
       } else {
         toast("Invalid API key!");
       }
@@ -36,7 +37,7 @@ export function AdminAuth() {
       </CardHeader>
       <CardContent className="space-y-2">
         <Label>API Key</Label>
-        <Input value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+        <Input value={apiKey} type="password" onChange={(e) => setApiKey(e.target.value)} />
       </CardContent>
       <CardFooter>
         <Button onClick={handleLogin}>Login</Button>

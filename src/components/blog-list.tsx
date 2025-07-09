@@ -61,7 +61,6 @@ export function BlogList({
   blogs,
   loading
 }: BlogListProps) {
-  console.log("BlogList render");
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(3);
   const [selectedBlogSlug, setSelectedBlogSlug] = useState<

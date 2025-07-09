@@ -1,5 +1,5 @@
 "use client";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { Loader2, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,11 @@ export function AdminMenu() {
 
   if (!apiKey) return null;
 
+  const handleLogout = () => {
+    setCookie("api_key", "");
+    window.location.reload();
+  };
+
   const handleCreate = () => {
     setLoading(true);
     fetch("/api/blogs/blog", {
@@ -87,6 +92,9 @@ export function AdminMenu() {
           <DialogTrigger asChild>
             <DropdownMenuItem>Create Blog</DropdownMenuItem>
           </DialogTrigger>
+          <DropdownMenuItem>
+            <p onClick={handleLogout} className="text-red-500">Logout</p>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <DialogContent>
