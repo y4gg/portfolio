@@ -59,7 +59,7 @@ export default function BlogPage() {
       {/* Desktop Layout */}
       <div className="hidden lg:block">
         <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
-          <ResizablePanel defaultSize={40} minSize={25}>
+          <ResizablePanel defaultSize={40} minSize={30}>
             <BlogList
               onBlogSelect={setSelectedBlogSlug}
               isMobile={false}

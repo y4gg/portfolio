@@ -105,7 +105,7 @@ export default function AdminPage() {
             direction="horizontal"
             className="w-screen h-screen"
           >
-            <ResizablePanel defaultSize={40} minSize={25}>
+            <ResizablePanel defaultSize={40} minSize={30}>
               <BlogList
                 onBlogSelect={setSelectedBlogSlug}
                 isMobile={false}

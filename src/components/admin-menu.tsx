@@ -86,14 +86,14 @@ export function AdminMenu() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Link href={`/admin`}>Manage Blogs</Link>
           </DropdownMenuItem>
           <DialogTrigger asChild>
             <DropdownMenuItem>Create Blog</DropdownMenuItem>
           </DialogTrigger>
-          <DropdownMenuItem>
-            <p onClick={handleLogout} className="text-red-500">Logout</p>
+          <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+            Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
