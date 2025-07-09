@@ -1,18 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
 
 interface BlogViewerProps {
   selectedRepoUrl?: string;
 }
 
 export function Embet({ selectedRepoUrl }: BlogViewerProps) {
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!selectedRepoUrl) {
-      return;
-    }
-  }, [selectedRepoUrl]);
 
   if (!selectedRepoUrl) {
     return (
@@ -27,16 +19,6 @@ export function Embet({ selectedRepoUrl }: BlogViewerProps) {
     );
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <div className="text-lg">Loading website...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full h-full flex-1">
       <iframe
@@ -45,7 +27,6 @@ export function Embet({ selectedRepoUrl }: BlogViewerProps) {
         className="w-full h-full rounded"
         frameBorder={0}
         allowFullScreen
-        onLoad={() => setLoading(false)}
       ></iframe>
     </div>
   );

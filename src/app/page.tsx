@@ -18,15 +18,30 @@ export default function Page() {
           </p>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-center gap-2">
+            <Button asChild variant="default" className="w-full lg:hidden">
+              <Link
+                href="/blog"
+                className="w-full flex items-center justify-center"
+              >
+                <AlignCenter />
+                Blog
+              </Link>
+            </Button>
+            <div className="items-center justify-center gap-2 hidden lg:flex">
               <Button asChild variant="default" className="flex-1 w-full">
-                <Link href="/blog" className="w-full flex items-center justify-center">
+                <Link
+                  href="/blog"
+                  className="w-full flex items-center justify-center"
+                >
                   <AlignCenter />
                   Blog
                 </Link>
               </Button>
               <Button asChild className="flex-1 w-full">
-                <Link href="/tools" className="w-full flex items-center justify-center">
+                <Link
+                  href="/tools"
+                  className="w-full flex items-center justify-center"
+                >
                   <Wrench />
                   Toolbox
                 </Link>

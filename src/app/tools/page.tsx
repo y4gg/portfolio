@@ -16,13 +16,10 @@ export default function BlogPage() {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="lg:hidden">
-        <GitHubReposSelect
-          setSelectedRepoUrl={setSelectedRepoUrl}
-          selectedRepoUrl={selectedRepoUrl}
-        />
+      <div className="lg:hidden mx-auto p-4">
+        <Header />
+        The toolbox is only available on desktop.
       </div>
-
       {/* Desktop Layout */}
       <div className="hidden lg:block">
         <ResizablePanelGroup
@@ -31,7 +28,7 @@ export default function BlogPage() {
         >
           <ResizablePanel defaultSize={40} minSize={30}>
             <div className="p-6">
-              <Header constomText="Toolsbox"/>
+              <Header constomText="Tools"/>
               <GitHubReposSelect
                 setSelectedRepoUrl={setSelectedRepoUrl}
                 selectedRepoUrl={selectedRepoUrl}

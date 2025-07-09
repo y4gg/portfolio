@@ -32,7 +32,10 @@ interface GitHubReposSelectProps {
   selectedRepoUrl: string | undefined;
 }
 
-export function GitHubReposSelect({setSelectedRepoUrl, selectedRepoUrl}: GitHubReposSelectProps) {
+export function GitHubReposSelect({
+  setSelectedRepoUrl,
+  selectedRepoUrl,
+}: GitHubReposSelectProps) {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
@@ -108,15 +111,23 @@ export function GitHubReposSelect({setSelectedRepoUrl, selectedRepoUrl}: GitHubR
         {currentRepos.map((repo) => (
           <div
             key={repo.id}
-            className={`border rounded-lg p-4 hover:shadow-md transition-shadow pb-1.5 ${selectedRepoUrl === repo.homepage ? "ring-2 ring-blue-500" : ""}`}
+            onClick={() => handleSelect(repo.homepage ?? "")}
+            className={`border rounded-lg p-4 hover:shadow-md transition-shadow pb-1.5 ${
+              selectedRepoUrl === repo.homepage ? "ring-2 ring-blue-500" : ""
+            }`}
           >
             <div className="flex items-start justify-between mb-2">
-              <Link href={repo.html_url} className="flex-1">
+              <p className="flex-1">
                 <h3 className="font-semibold text-lg truncate hover:text-primary transition-colors">
                   {repo.name}
                 </h3>
-              </Link>
-              <Button asChild variant="ghost" size="sm" onClick={() => handleSelect(repo.homepage ?? "")}>
+              </p>
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                onClick={() => handleSelect(repo.homepage ?? "")}
+              >
                 <p>Select</p>
               </Button>
             </div>
