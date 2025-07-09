@@ -39,11 +39,12 @@ export default function AdminPage() {
       .then((response) => {
         if (response.ok) {
           setApiKey(api_key as string);
-          setPageLoading(false);
         }
       })
       .catch((error) => {
         console.error("Error validating API key:", error);
+      })
+      .finally(() => {
         setPageLoading(false);
       });
     fetch("/api/blogs")
@@ -71,13 +72,11 @@ export default function AdminPage() {
     return (
       <div className="p-4 lg:p-6">
         <Header />
-        <div className="m-auto">
-          Loading...
-        </div>
+        <div className="m-auto">Loading...</div>
       </div>
     );
   }
-  
+
   if (!apiKey) {
     return (
       <div className="p-4 lg:p-6">
