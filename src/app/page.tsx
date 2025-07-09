@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { GitHubRepos } from "@/components/github-repos";
-import { Github, Mail, AlignCenter } from "lucide-react";
+import { Github, Mail, AlignCenter, Wrench } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
@@ -18,12 +18,20 @@ export default function Page() {
           </p>
 
           <div className="space-y-4">
-            <Button asChild variant="default" className="w-full">
-              <Link href="/blog">
-                <AlignCenter />
-                Blog
-              </Link>
-            </Button>
+            <div className="flex items-center justify-center gap-2">
+              <Button asChild variant="default" className="flex-1 w-full">
+                <Link href="/blog" className="w-full flex items-center justify-center">
+                  <AlignCenter />
+                  Blog
+                </Link>
+              </Button>
+              <Button asChild className="flex-1 w-full">
+                <Link href="/tools" className="w-full flex items-center justify-center">
+                  <Wrench />
+                  Toolbox
+                </Link>
+              </Button>
+            </div>
             <Button asChild variant="secondary" className="w-full">
               <Link href="https://github.com/y4gg">
                 <Github className="w-4 h-4 mr-2" />

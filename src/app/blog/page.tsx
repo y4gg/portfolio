@@ -18,7 +18,9 @@ interface Blog {
 
 export default function BlogPage() {
   // BlogList will manage all blog state, pagination, and selection
-  const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | undefined>();
+  const [selectedBlogSlug, setSelectedBlogSlug] = useState<
+    string | undefined
+  >();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -58,7 +60,10 @@ export default function BlogPage() {
 
       {/* Desktop Layout */}
       <div className="hidden lg:block">
-        <ResizablePanelGroup direction="horizontal" className="w-screen h-screen">
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="w-screen h-screen"
+        >
           <ResizablePanel defaultSize={40} minSize={30}>
             <BlogList
               onBlogSelect={setSelectedBlogSlug}
@@ -69,7 +74,10 @@ export default function BlogPage() {
           </ResizablePanel>
           <ResizableHandle className="h-screen" />
           <ResizablePanel defaultSize={60} minSize={60} className="p-4 lg:p-6">
-            <BlogViewer selectedBlogSlug={selectedBlogSlug} fullScreen={false} />
+            <BlogViewer
+              selectedBlogSlug={selectedBlogSlug}
+              fullScreen={false}
+            />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
