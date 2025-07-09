@@ -24,6 +24,7 @@ interface BlogListProps {
   onBlogSelect?: (slug: string) => void;
   blogs: Blog[];
   loading: boolean;
+  app?: boolean;
 }
 
 function getPageNumbers(currentPage: number, totalPages: number) {
@@ -59,7 +60,7 @@ export function BlogList({
   isMobile,
   onBlogSelect,
   blogs,
-  loading
+  loading,
 }: BlogListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(3);
@@ -174,83 +175,85 @@ export function BlogList({
         )}
       </div>
     );
-  }
-  // Desktop
-  return (
-    <div className="p-6 h-full overflow-y-auto">
-      <Header />
-      {currentBlogs.length === 0 ? (
-        <div className="text-center py-8">
-          <p className="text-gray-500">No blog posts found.</p>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {currentBlogs.map((blog) => (
-            <article
-              key={blog.id}
-              className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
-                selectedBlogSlug === blog.slug ? "ring-2 ring-blue-500" : ""
-              }`}
-              onClick={() => handleBlogSelect(blog.slug)}
-            >
-              <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
-              <p className="text-gray-600 mb-3">
-                {new Date(blog.published).toLocaleDateString()}
-              </p>
-              <p className="text-gray-700 line-clamp-3">
-                {blog.content.substring(0, 200)}...
-              </p>
-              <p
-                className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
+  } else {
+    return (
+      <div className="p-6 h-full overflow-y-auto">
+        <Header />
+        {currentBlogs.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">No blog posts found.</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {currentBlogs.map((blog) => (
+              <article
+                key={blog.id}
+                className={`border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer ${
+                  selectedBlogSlug === blog.slug ? "ring-2 ring-blue-500" : ""
+                }`}
                 onClick={() => handleBlogSelect(blog.slug)}
               >
-                Read more →
-              </p>
-            </article>
-          ))}
-        </div>
-      )}
-      {totalPages > 1 && (
-        <div className="mt-8">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                  className={
-                    currentPage === 1
-                      ? "pointer-events-none opacity-50"
-                      : "cursor-pointer"
-                  }
-                />
-              </PaginationItem>
-              {getPageNumbers(currentPage, totalPages).map((page) => (
-                <PaginationItem key={page}>
-                  <PaginationLink
-                    onClick={() => handlePageChange(page)}
-                    isActive={currentPage === page}
-                    className="cursor-pointer"
-                  >
-                    {page}
-                  </PaginationLink>
+                <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+                <p className="text-gray-600 mb-3">
+                  {new Date(blog.published).toLocaleDateString()}
+                </p>
+                <p className="text-gray-700 line-clamp-3">
+                  {blog.content.substring(0, 200)}...
+                </p>
+                <p
+                  className="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
+                  onClick={() => handleBlogSelect(blog.slug)}
+                >
+                  Read more →
+                </p>
+              </article>
+            ))}
+          </div>
+        )}
+        {totalPages > 1 && (
+          <div className="mt-8">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      handlePageChange(Math.max(1, currentPage - 1))
+                    }
+                    className={
+                      currentPage === 1
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
+                  />
                 </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() =>
-                    handlePageChange(Math.min(totalPages, currentPage + 1))
-                  }
-                  className={
-                    currentPage === totalPages
-                      ? "pointer-events-none opacity-50"
-                      : "cursor-pointer"
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
-    </div>
-  );
+                {getPageNumbers(currentPage, totalPages).map((page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      onClick={() => handlePageChange(page)}
+                      isActive={currentPage === page}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      handlePageChange(Math.min(totalPages, currentPage + 1))
+                    }
+                    className={
+                      currentPage === totalPages
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
+      </div>
+    );
+  }
 }
