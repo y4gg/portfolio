@@ -1,7 +1,7 @@
 "use client";
 import BlogViewer from "@/components/blog-viewer";
 import { Header } from "@/components/general";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function BlogPage({
   params,
