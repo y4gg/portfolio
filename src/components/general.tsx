@@ -16,7 +16,7 @@ export function Header({ constomText }: HeaderProps) {
     const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
     setShow(isMobile && (isStandalone || isFullscreen));
   }, []);
-
+  
   return (
     <div className="flex items-center justify-between mb-6">
       {constomText ? (
