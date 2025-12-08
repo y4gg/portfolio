@@ -1,2 +1,0 @@
-[build]
-  command = "pnpm dlx prisma generate && pnpm run build"

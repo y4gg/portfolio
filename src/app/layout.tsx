@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/theme-toggle";
-import { AdminMenu } from "@/components/admin-menu";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "y4.gg's Portfolio",
-  description: "Oh no, not another portfolio website with bareily any content.",
+  description: "Just a simple version of my github repos.",
 };
 
 export default function RootLayout({
@@ -31,7 +30,6 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
         <link
           rel="icon"
           type="image/png"
@@ -57,9 +55,6 @@ export default function RootLayout({
           {children}
           <div className="absolute hidden md:block bottom-4 right-4">
             <ModeToggle />
-          </div>
-          <div className="absolute md:block bottom-4 right-4 md:bottom-4 md:right-16">
-            <AdminMenu />
           </div>
           <Toaster />
         </ThemeProvider>

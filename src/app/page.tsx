@@ -27,26 +27,6 @@ export default function Page() {
                 Blog
               </Link>
             </Button>
-            <div className="items-center justify-center gap-2 hidden lg:flex">
-              <Button asChild variant="default" className="flex-1 w-full">
-                <Link
-                  href="/blog"
-                  className="w-full flex items-center justify-center"
-                >
-                  <AlignCenter />
-                  Blog
-                </Link>
-              </Button>
-              <Button asChild className="flex-1 w-full">
-                <Link
-                  href="/tools"
-                  className="w-full flex items-center justify-center"
-                >
-                  <Wrench />
-                  Toolbox
-                </Link>
-              </Button>
-            </div>
             <Button asChild variant="secondary" className="w-full">
               <Link href="https://github.com/y4gg">
                 <Github className="w-4 h-4 mr-2" />
