@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { GitHubRepos } from "@/components/github-repos";
-import { Github, Mail, AlignCenter, Wrench } from "lucide-react";
+import { Github, Mail, AlignCenter } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
