@@ -18,16 +18,7 @@ export default function Page() {
           </p>
 
           <div className="space-y-4">
-            <Button asChild variant="default" className="w-full lg:hidden">
-              <Link
-                href="/blog"
-                className="w-full flex items-center justify-center"
-              >
-                <AlignCenter />
-                Blog
-              </Link>
-            </Button>
-            <Button asChild variant="secondary" className="w-full">
+            <Button asChild className="w-full">
               <Link href="https://github.com/y4gg">
                 <Github className="w-4 h-4 mr-2" />
                 GitHub
